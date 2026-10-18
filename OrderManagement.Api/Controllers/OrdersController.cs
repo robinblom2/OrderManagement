@@ -6,7 +6,7 @@ using OrderManagement.Api.Services;
 namespace OrderManagement.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/orders")]
 public class OrdersController(OrderService orderService) : ControllerBase
 {
     [HttpGet]

@@ -1,5 +1,4 @@
-﻿using Docker.DotNet.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OrderManagement.Api.Dtos;
 using OrderManagement.Api.Services;
 using OrderManagement.Tests.Fixtures;
@@ -10,7 +9,7 @@ namespace OrderManagement.Tests.Services;
 /// Integration tests for OrderService using a PostgreSQL database
 /// managed by Testcontainers.
 /// </summary>
-public class OrderServiceTests: IClassFixture<PostgresFixture>, IAsyncLifetime
+public class OrderServiceTests : IClassFixture<PostgresFixture>, IAsyncLifetime
 {
     private readonly PostgresFixture _fixture;
 
@@ -19,9 +18,6 @@ public class OrderServiceTests: IClassFixture<PostgresFixture>, IAsyncLifetime
         _fixture = fixture;
     }
 
-    /// <summary>
-    /// Reset database state before each test.
-    /// </summary>
     public async Task InitializeAsync()
     {
         await using var context = _fixture.CreateDbContext();
@@ -73,7 +69,7 @@ public class OrderServiceTests: IClassFixture<PostgresFixture>, IAsyncLifetime
         await using var firstContext = _fixture.CreateDbContext();
         var orderService = new OrderService(firstContext);
 
-        var createOrderDto = new CreateOrderDto() { CustomerName = "John Doe", TotalAmount = 144.44M};
+        var createOrderDto = new CreateOrderDto() { CustomerName = "John Doe", TotalAmount = 144.44M };
         var order = await orderService.CreateOrderAsync(createOrderDto);
 
         var updateOrderDto = new UpdateOrderDto() { CustomerName = "Jane Doe", TotalAmount = 95.33M };
@@ -121,11 +117,12 @@ public class OrderServiceTests: IClassFixture<PostgresFixture>, IAsyncLifetime
         // Act
         var result = await orderService.DeleteOrderAsync(createdOrder.Id);
 
+        // Assert
+        Assert.True(result);
+
         await using var secondContext = _fixture.CreateDbContext();
         var order = await secondContext.Orders.FindAsync(createdOrder.Id);
 
-        // Assert
-        Assert.True(result);
         Assert.Null(order);
     }
 

@@ -20,7 +20,6 @@ public class OrdersControllerTests : IClassFixture<PostgresFixture>, IAsyncLifet
     {
         await using var context = _fixture.CreateDbContext();
 
-        // Ensure each test starts with an empty database.
         await context.Orders.ExecuteDeleteAsync();
     }
 
@@ -62,7 +61,7 @@ public class OrdersControllerTests : IClassFixture<PostgresFixture>, IAsyncLifet
 
         Assert.NotNull(createdOrder);
         Assert.NotNull(response.Headers.Location);
-        Assert.EndsWith($"/api/Orders/{createdOrder.Id}", response.Headers.Location.ToString());
+        Assert.EndsWith($"/api/orders/{createdOrder.Id}", response.Headers.Location.ToString());
         Assert.True(createdOrder.Id > 0);
         Assert.Equal(createOrderDto.CustomerName, createdOrder.CustomerName);
         Assert.Equal(createOrderDto.TotalAmount, createdOrder.TotalAmount);
@@ -121,10 +120,10 @@ public class OrdersControllerTests : IClassFixture<PostgresFixture>, IAsyncLifet
 
         var updatedOrderDto = new UpdateOrderDto() { CustomerName = "Jane Doe", TotalAmount = 199.99M };
 
-        // Act
         await using var factory = new OrderManagementWebApplicationFactory(_fixture);
         using var client = factory.CreateClient();
 
+        // Act
         var response = await client.PutAsJsonAsync($"/api/orders/{order.Id}", updatedOrderDto);
 
         // Assert

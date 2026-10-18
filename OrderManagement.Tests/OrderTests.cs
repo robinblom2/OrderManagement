@@ -1,21 +1,16 @@
 ﻿using OrderManagement.Api.Models;
 
-namespace OrderManagement.Tests
+namespace OrderManagement.Tests;
+
+public class OrderTests
 {
-    /// <summary>
-    /// This class contains unit tests written with Xunit.
-    /// </summary>
-    public class OrderTests
+    [Fact]
+    public void OrderStatus_ShouldDefaultToPending()
     {
-        [Fact]
-        public void OrderStatus_ShouldDefaultToPending()
-        {
-            // Act
-            var order = new Order { CustomerName = "John Doe" };
+        // Act
+        var order = new Order { CustomerName = "John Doe" };
 
-
-            // Assert
-            Assert.Equal("Pending", order.Status);
-        }
+        // Assert
+        Assert.Equal("Pending", order.Status);
     }
 }
