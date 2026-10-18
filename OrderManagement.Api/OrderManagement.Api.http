@@ -1,0 +1,41 @@
+@OrderManagement.Api_HostAddress = http://localhost:5229
+
+GET {{OrderManagement.Api_HostAddress}}/api/orders
+Accept: application/json
+
+###
+
+GET {{OrderManagement.Api_HostAddress}}/api/orders/3
+Accept: application/json
+
+###
+
+GET {{OrderManagement.Api_HostAddress}}/api/orders/999
+
+###
+
+GET {{OrderManagement.Api_HostAddress}}/api/orders/abc
+
+###
+
+POST {{OrderManagement.Api_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "customerName": "John Doe",
+  "totalAmount": 149.99
+}
+
+###
+
+PUT {{OrderManagement.Api_HostAddress}}/api/orders/1
+Content-Type: application/json
+
+{
+  "customerName": "Jane Doe",
+  "totalAmount": 299.99
+}
+
+###
+
+DELETE {{OrderManagement.Api_HostAddress}}/api/orders/3

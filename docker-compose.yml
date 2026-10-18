@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: ordermanagement-postgres
+    environment:
+      POSTGRES_DB: ordermanagement
+      POSTGRES_USER: ordermanagement
+      POSTGRES_PASSWORD: devpassword
+    ports:
+      - "127.0.0.1:5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
