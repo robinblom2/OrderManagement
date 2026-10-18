@@ -23,13 +23,13 @@ New orders start with a `Pending` status and receive a UTC creation timestamp.
 
 ## API endpoints
 
-| Method | Endpoint | Description | Successful response |
-| --- | --- | --- | --- |
-| `GET` | `/api/orders` | Retrieve all orders | `200 OK` |
-| `GET` | `/api/orders/{id}` | Retrieve an order by ID | `200 OK` |
-| `POST` | `/api/orders` | Create an order | `201 Created` |
-| `PUT` | `/api/orders/{id}` | Update an order | `204 No Content` |
-| `DELETE` | `/api/orders/{id}` | Delete an order | `204 No Content` |
+| Method   | Endpoint           | Description             | Successful response |
+| -------- | ------------------ | ----------------------- | ------------------- |
+| `GET`    | `/api/orders`      | Retrieve all orders     | `200 OK`            |
+| `GET`    | `/api/orders/{id}` | Retrieve an order by ID | `200 OK`            |
+| `POST`   | `/api/orders`      | Create an order         | `201 Created`       |
+| `PUT`    | `/api/orders/{id}` | Update an order         | `204 No Content`    |
+| `DELETE` | `/api/orders/{id}` | Delete an order         | `204 No Content`    |
 
 Requests with invalid order data return `400 Bad Request`. Requests for nonexistent orders return `404 Not Found` where applicable. A successful POST response includes a `Location` header for the new resource.
 
@@ -73,7 +73,7 @@ OrderManagement/
 - .NET 10 SDK
 - Docker Desktop (or another Docker-compatible environment with Docker Compose)
 - Optional: Visual Studio with ASP.NET and web development support
-- Optional: `dotnet-ef` CLI tool for applying migrations
+- `dotnet-ef` CLI tool for applying migrations (installation instructions below)
 
 ### 1. Start PostgreSQL
 
@@ -87,16 +87,12 @@ The development database is available on `localhost:5434`. The credentials in `d
 
 ### 2. Configure the connection string
 
-The API reads `ConnectionStrings:DefaultConnection` from ASP.NET Core configuration. For local development, use **User Secrets** instead of committing credentials to source control:
+The API reads `ConnectionStrings:DefaultConnection` from ASP.NET Core configuration. For local development, use **User Secrets** instead of committing credentials to source control.
+
+The API project has a User Secrets ID configured, so you only need to set the connection string:
 
 ```bash
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5434;Database=ordermanagement;Username=ordermanagement;Password=devpassword" --project OrderManagement.Api
-```
-
-This command requires a User Secrets ID configured for the API project. If one is not already present, initialize it first:
-
-```bash
-dotnet user-secrets init --project OrderManagement.Api
 ```
 
 ### 3. Apply database migrations
@@ -104,7 +100,13 @@ dotnet user-secrets init --project OrderManagement.Api
 If the `dotnet ef` command is not installed, install the EF Core CLI tool:
 
 ```bash
-dotnet tool install --global dotnet-ef
+dotnet tool install --global dotnet-ef --version 10.0.12
+```
+
+If you already have `dotnet-ef` installed, check its version:
+
+```bash
+dotnet ef --version
 ```
 
 Then apply the existing migrations:
